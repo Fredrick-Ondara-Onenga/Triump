@@ -630,55 +630,44 @@
 </footer>
 
 <script>
+  // MOBILE MENU
   function toggleMenu() {
     document.getElementById('navLinks').classList.toggle('active');
   }
 
-  // Form validation and submission
+  // FORM VALIDATION + FORMSPREE SUBMISSION
   document.getElementById('bookingForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    
-    // Basic validation
+
     const requiredFields = this.querySelectorAll('[required]');
     let valid = true;
-    
+
     requiredFields.forEach(field => {
-      if (!field.value) {
+      if (!field.value.trim()) {
         valid = false;
         field.style.borderColor = 'red';
       } else {
         field.style.borderColor = '#ddd';
       }
     });
-    
+
     if (!valid) {
       alert('Please fill in all required fields.');
       return;
     }
-    
-    // If validation passes, show success message
+
     const submitBtn = document.querySelector('.submit-btn');
-    
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
     submitBtn.disabled = true;
-    
-    setTimeout(() => {
-      alert('Thank you for your booking! Your reservation has been confirmed. You will receive a confirmation email shortly.');
-      
-      // CHANGE: Set button text to "Booking Confirmed" after successful submission
-      submitBtn.innerHTML = '<i class="fas fa-check-circle"></i> Booking Confirmed';
-      submitBtn.disabled = false;
-      
-      // In a real implementation, you would submit to Formspree here
-      // this.submit();
-    }, 1500);
+
+    // SUBMIT FORM TO FORMSPREE
+    this.submit();
   });
 
-  // Set minimum date for start date to today
+  // DATE RESTRICTIONS
   const today = new Date().toISOString().split('T')[0];
   document.getElementById('startDate').setAttribute('min', today);
-  
-  // Update end date min date when start date changes
+
   document.getElementById('startDate').addEventListener('change', function() {
     document.getElementById('endDate').setAttribute('min', this.value);
   });
@@ -687,3 +676,4 @@
 </body>
 
 </html>
+
